@@ -1,49 +1,31 @@
-require 'digest/sha1'
-require 'digest/sha2'
+require 'epdq/sha_calculator'
 
 module EPDQ
   class Request
 
-    attr_reader :sha_in, :sha_type, :parameters
+    attr_reader :parameters
 
     TEST_URL = "https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp"
     LIVE_URL = "https://mdepayments.epdq.co.uk/ncol/prod/orderstandard.asp"
 
-    def initialize(options = {})
-      @sha_in = options.delete(:sha_in)
-      raise "missing sha_in parameter" unless @sha_in && @sha_in.length > 0
-
-      @sha_type = (options.delete(:sha_type) || :sha1).to_sym
-      if ![:sha1, :sha256, :sha512].include?(@sha_type)
-        raise "unexpected sha_type parameter: should be one of sha1, sha256 or sha512" 
-      end
-
-      @parameters = options
+    # Initialize with a hash of parameters to be passed to ePDQ to set up the
+    # transaction.
+    def initialize(parameters = {})
+      @parameters = parameters
     end
 
+    # Returns the SHASIGN value, calculated from the other form parameters and
+    # the EPDQ.sha_in.
     def shasign
-      buffer = ""
-
-      @parameters.keys.sort.each do |key|
-        value = @parameters[key]
-        if value && value.to_s.length > 0
-          buffer << "#{key.upcase}=#{value}#{@sha_in}"
-        end
-      end
-
-      case @sha_type
-      when :sha1
-        Digest::SHA1.hexdigest(buffer).upcase
-      when :sha256
-        Digest::SHA256.hexdigest(buffer).upcase
-      when :sha512
-        Digest::SHA512.hexdigest(buffer).upcase
-      end
+      calculator = EPDQ::ShaCalculator.new(full_parameters, EPDQ.sha_in, EPDQ.sha_type)
+      calculator.sha_signature
     end
 
+    # Returns a hash of form parameters with the SHASIGN value correctly
+    # calculated and included.
     def form_attributes
       {}.tap do |attributes|
-        @parameters.each do |k, v|
+        full_parameters.each do |k, v|
           if v && v.to_s.length > 0
             attributes[k.to_s.upcase] = v.to_s
           end
@@ -52,5 +34,16 @@ module EPDQ
         attributes["SHASIGN"] = self.shasign
       end
     end
+
+    def request_url
+      EPDQ.test_mode ? TEST_URL : LIVE_URL
+    end
+
+    private
+
+    def full_parameters
+      @parameters.merge({ :pspid => EPDQ.pspid })
+    end
+
   end
 end

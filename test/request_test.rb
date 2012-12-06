@@ -2,28 +2,10 @@ require 'test_helper'
 
 class RequestTest < Test::Unit::TestCase
 
-  test "defaults to sha1" do
-    request = EPDQ::Request.new(:sha_in => "foo")
-    assert_equal request.sha_type, :sha1
-  end
-
-  test "raises if sha_in is missing" do
-    assert_raises do
-      EPDQ::Request.new({})
-    end
-  end
-
-  test "raises if sha_type is incorrect" do
-    assert_raises do
-      EPDQ::Request.new({ :sha_in => "foo", :sha_type => "foo" })
-    end
-  end
-
-  %w(sha1 sha256 sha512).each do |sha_type|
-    test "initializes with sha_type of #{sha_type}" do
-      request = EPDQ::Request.new({ :sha_in => "foo", :sha_type => sha_type })
-      assert_equal request.sha_type, sha_type.to_sym
-    end
+  setup do
+    EPDQ.sha_in = "Mysecretsig1875!?"
+    EPDQ.pspid = "MyPSPID"
+    EPDQ.sha_type = :sha1
   end
 
   test "shasign (sha1) calculates correctly" do
@@ -33,9 +15,7 @@ class RequestTest < Test::Unit::TestCase
       :amount => 1500,
       :currency => "EUR",
       :language => "en_US",
-      :orderid => "1234",
-      :pspid => "MyPSPID",
-      :sha_in => "Mysecretsig1875!?"
+      :orderid => "1234"
     }
 
     request = EPDQ::Request.new(options)
@@ -44,14 +24,13 @@ class RequestTest < Test::Unit::TestCase
   end
 
   test "shasign (sha256) calculates correctly" do
+    EPDQ.sha_type = :sha256
+
     options = {
       :amount => 1500,
       :currency => "EUR",
       :language => "en_US",
-      :orderid => "1234",
-      :pspid => "MyPSPID",
-      :sha_in => "Mysecretsig1875!?",
-      :sha_type => "sha256"
+      :orderid => "1234"
     }
 
     request = EPDQ::Request.new(options)
@@ -60,14 +39,13 @@ class RequestTest < Test::Unit::TestCase
   end
 
   test "shasign (sha512) calculates correctly" do
+    EPDQ.sha_type = :sha512
+
     options = {
       :amount => 1500,
       :currency => "EUR",
       :language => "en_US",
-      :orderid => "1234",
-      :pspid => "MyPSPID",
-      :sha_in => "Mysecretsig1875!?",
-      :sha_type => "sha512"
+      :orderid => "1234"
     }
 
     request = EPDQ::Request.new(options)
@@ -82,9 +60,7 @@ class RequestTest < Test::Unit::TestCase
       :amount => 1500,
       :currency => "EUR",
       :language => "en_US",
-      :orderid => "1234",
-      :pspid => "MyPSPID",
-      :sha_in => "Mysecretsig1875!?"
+      :orderid => "1234"
     }
 
     request = EPDQ::Request.new(options)
@@ -98,6 +74,20 @@ class RequestTest < Test::Unit::TestCase
     assert_equal form_attributes["ORDERID"], "1234"
     assert_equal form_attributes["PSPID"], "MyPSPID"
     assert_equal form_attributes["SHASIGN"], "F4CC376CD7A834D997B91598FA747825A238BE0A"
+  end
+
+  test "request_url in test mode" do
+    EPDQ.test_mode = true
+    request = EPDQ::Request.new
+    
+    assert_equal EPDQ::Request::TEST_URL, request.request_url
+  end
+
+  test "request_url in live mode" do
+    EPDQ.test_mode = false
+    request = EPDQ::Request.new
+    
+    assert_equal EPDQ::Request::LIVE_URL, request.request_url
   end
 
 end
