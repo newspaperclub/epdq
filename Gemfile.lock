@@ -1,0 +1,16 @@
+PATH
+  remote: .
+  specs:
+    epdq (0.0.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    test-unit (2.5.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  epdq!
+  test-unit (~> 2.5.2)
