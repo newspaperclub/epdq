@@ -40,5 +40,17 @@ module EPDQ
         Digest::SHA512.hexdigest(buffer).upcase
       end
     end
+
+    def form_attributes
+      {}.tap do |attributes|
+        @parameters.each do |k, v|
+          if v && v.to_s.length > 0
+            attributes[k.to_s.upcase] = v.to_s
+          end
+        end
+
+        attributes["SHASIGN"] = self.shasign
+      end
+    end
   end
 end

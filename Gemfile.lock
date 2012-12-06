@@ -13,4 +13,4 @@ PLATFORMS
 
 DEPENDENCIES
   epdq!
-  test-unit (~> 2.5.2)
+  test-unit (~> 2.5.3)
