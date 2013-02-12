@@ -5,7 +5,10 @@ module EPDQ
   class ShaCalculator
 
     def initialize(parameters = {}, sha, sha_type)
-      @parameters = parameters
+      @parameters = {}
+      parameters.each do |k,v|
+        @parameters[k.to_s.upcase] = v if v && v.to_s.length > 0
+      end
       @sha = sha
       @sha_type = sha_type
     end
@@ -16,10 +19,7 @@ module EPDQ
       buffer = ""
 
       @parameters.keys.sort.each do |key|
-        value = @parameters[key]
-        if value && value.to_s.length > 0
-          buffer << "#{key.upcase}=#{value}#{@sha}"
-        end
+        buffer << "#{key}=#{@parameters[key]}#{@sha}"
       end
 
       case @sha_type.to_sym
