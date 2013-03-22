@@ -6,7 +6,7 @@ module EPDQ
     attr_reader :parameters
 
     TEST_URL = "https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp"
-    LIVE_URL = "https://mdepayments.epdq.co.uk/ncol/prod/orderstandard.asp"
+    LIVE_URL = "https://payments.epdq.co.uk/ncol/prod/orderstandard.asp"
 
     # Initialize with a hash of parameters to be passed to ePDQ to set up the
     # transaction.
