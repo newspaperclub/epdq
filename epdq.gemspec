@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = "epdq"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
   s.authors = ["Tom Taylor", "Alex Tomlins", "Andy Pearson"]
   s.email   = ["tom@tomtaylor.co.uk", "hello@wearefriday.com"]
   s.summary = "Ruby library for handling Barclaycard EPDQ requests and responses"
