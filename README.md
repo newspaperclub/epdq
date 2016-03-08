@@ -1,4 +1,4 @@
-ePDQ 
+ePDQ
 ====
 
 ePDQ is a Ruby library for interfacing with Barclaycard's ePDQ payment gateway.
@@ -12,6 +12,10 @@ First, configure the EPDQ module for your settings:
     EPDQ.sha_type = :sha1 # or :sha256, :sha512
     EPDQ.sha_in   = "yourshainstring"
     EPDQ.sha_out  = "yourshaoutstring"
+
+If you would like to use the UTF8 enabled endpoints:
+
+    EPDQ.enable_utf8 = true
 
 Then you can build the form for a user to POST to, starting in the controller:
 All the options keys are named after the downcased fields in the [ePDQ

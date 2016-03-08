@@ -20,7 +20,7 @@ class RequestTest < Test::Unit::TestCase
 
     request = EPDQ::Request.new(options)
 
-    assert_equal "F4CC376CD7A834D997B91598FA747825A238BE0A", request.shasign 
+    assert_equal "F4CC376CD7A834D997B91598FA747825A238BE0A", request.shasign
   end
 
   test "shasign (sha256) calculates correctly" do
@@ -35,7 +35,7 @@ class RequestTest < Test::Unit::TestCase
 
     request = EPDQ::Request.new(options)
 
-    assert_equal "E019359BAA3456AE5A986B6AABD22CF1B3E09438739E97F17A7F61DF5A11B30F", request.shasign 
+    assert_equal "E019359BAA3456AE5A986B6AABD22CF1B3E09438739E97F17A7F61DF5A11B30F", request.shasign
   end
 
   test "shasign (sha512) calculates correctly" do
@@ -50,7 +50,7 @@ class RequestTest < Test::Unit::TestCase
 
     request = EPDQ::Request.new(options)
 
-    assert_equal "D1CFE8833A297D0922E908B2B44934B09EE966EF1584DC0D696304E07BB58BA71973C2383C831D878D8A243BB7D7DFFFBE53CEE21955CDFEF44FE82E551F859D", request.shasign 
+    assert_equal "D1CFE8833A297D0922E908B2B44934B09EE966EF1584DC0D696304E07BB58BA71973C2383C831D878D8A243BB7D7DFFFBE53CEE21955CDFEF44FE82E551F859D", request.shasign
   end
 
   test "form_attributes" do
@@ -78,16 +78,34 @@ class RequestTest < Test::Unit::TestCase
 
   test "request_url in test mode" do
     EPDQ.test_mode = true
+    EPDQ.enable_utf8 = false
     request = EPDQ::Request.new
-    
-    assert_equal EPDQ::Request::TEST_URL, request.request_url
+
+    assert_equal "https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp", request.request_url
   end
 
   test "request_url in live mode" do
     EPDQ.test_mode = false
+    EPDQ.enable_utf8 = false
     request = EPDQ::Request.new
-    
-    assert_equal EPDQ::Request::LIVE_URL, request.request_url
+
+    assert_equal "https://payments.epdq.co.uk/ncol/prod/orderstandard.asp", request.request_url
+  end
+
+  test "request_url in test mode when UTF8 is enabled" do
+    EPDQ.test_mode = true
+    EPDQ.enable_utf8 = true
+    request = EPDQ::Request.new
+
+    assert_equal "https://mdepayments.epdq.co.uk/ncol/test/orderstandard_utf8.asp", request.request_url
+  end
+
+  test "request_url in live mode when UTF8 is enabled" do
+    EPDQ.test_mode = false
+    EPDQ.enable_utf8 = true
+    request = EPDQ::Request.new
+
+    assert_equal "https://payments.epdq.co.uk/ncol/prod/orderstandard_utf8.asp", request.request_url
   end
 
 end

@@ -11,6 +11,14 @@ module EPDQ
     @@test_mode
   end
 
+  def self.enable_utf8=(enable_utf8)
+    @@enable_utf8 = !!enable_utf8
+  end
+
+  def self.enable_utf8
+    @@enable_utf8
+  end
+
   def self.sha_in=(sha_in)
     @@sha_in = sha_in
   end

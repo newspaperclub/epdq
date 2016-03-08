@@ -5,9 +5,6 @@ module EPDQ
 
     attr_reader :parameters
 
-    TEST_URL = "https://mdepayments.epdq.co.uk/ncol/test/orderstandard.asp"
-    LIVE_URL = "https://payments.epdq.co.uk/ncol/prod/orderstandard.asp"
-
     # Initialize with a hash of parameters to be passed to ePDQ to set up the
     # transaction.
     def initialize(parameters = {})
@@ -36,14 +33,27 @@ module EPDQ
     end
 
     def request_url
-      EPDQ.test_mode ? TEST_URL : LIVE_URL
+      url + endpoint
     end
 
     private
 
+    TEST_URL = "https://mdepayments.epdq.co.uk/ncol/test/"
+    LIVE_URL = "https://payments.epdq.co.uk/ncol/prod/"
+
+    ENDPOINT = "orderstandard.asp"
+    UTF8_ENDPOINT = "orderstandard_utf8.asp"
+
+    def url
+      EPDQ.test_mode ? TEST_URL : LIVE_URL
+    end
+
+    def endpoint
+      EPDQ.enable_utf8 ? UTF8_ENDPOINT : ENDPOINT
+    end
+
     def full_parameters
       @parameters.merge({ :pspid => EPDQ.pspid })
     end
-
   end
 end
