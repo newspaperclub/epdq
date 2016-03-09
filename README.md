@@ -29,7 +29,7 @@ provided as symbols or strings.
       :orderid => "1234"
     }
 
-    @epdq_request = EPQD::Request.new(parameters)
+    @epdq_request = EPDQ::Request.new(parameters)
 
 Then in a Rails view, you might do something like this:
 
