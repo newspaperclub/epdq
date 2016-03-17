@@ -21,6 +21,22 @@ class ResponseTest < Test::Unit::TestCase
     assert response.valid_shasign?
   end
 
+  test "valid_sha? with mssing SHASIGN parameter" do
+    query_string = "ACCEPTANCE=1234"
+
+    assert_raise(EPDQ::MissingOrEmptyShasign.new("missing or empty SHASIGN parameter")) do
+      EPDQ::Response.new(query_string).valid_shasign?
+    end
+  end
+
+  test "valid_sha? with empty SHASIGN parameter" do
+    query_string = "ACCEPTANCE=1234SHASIGN="
+
+    assert_raise(EPDQ::MissingOrEmptyShasign.new("missing or empty SHASIGN parameter")) do
+      EPDQ::Response.new(query_string).valid_shasign?
+    end
+  end
+
   test "parameters" do
     query_string = "ACCEPTANCE=1234&AMOUNT=15.00&BRAND=VISA&CARDNO=xxxxxxxxxxxx1111&CURRENCY=EUR&NCERROR=0&ORDERID=12&PAYID=32100123&PM=CreditCard&STATUS=9&SHASIGN=8DC2A769700CA4B3DF87FE8E3B6FD162D6F6A5FA"
 

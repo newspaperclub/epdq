@@ -2,6 +2,7 @@ require 'epdq/request'
 require 'epdq/response'
 
 module EPDQ
+  class MissingOrEmptyShasign < StandardError; end
 
   def self.test_mode=(test_mode)
     @@test_mode = !!test_mode

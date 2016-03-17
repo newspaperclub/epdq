@@ -16,8 +16,7 @@ module EPDQ
     end
 
     def valid_shasign?
-      raise "missing or empty SHASIGN parameter" unless @shasign && @shasign.length > 0
-
+      raise(EPDQ::MissingOrEmptyShasign, "missing or empty SHASIGN parameter") unless @shasign && @shasign.length > 0
       calculated_sha_out == @shasign
     end
 
@@ -35,6 +34,5 @@ module EPDQ
       calculator = EPDQ::ShaCalculator.new(@raw_parameters, EPDQ.sha_out, EPDQ.sha_type)
       calculator.sha_signature
     end
-
   end
 end
