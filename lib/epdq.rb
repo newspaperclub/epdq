@@ -1,11 +1,12 @@
-require 'epdq/request'
-require 'epdq/response'
+# frozen_string_literal: true
+require "epdq/request"
+require "epdq/response"
 
 module EPDQ
   class MissingOrEmptyShasign < StandardError; end
 
   def self.test_mode=(test_mode)
-    @@test_mode = !!test_mode
+    @@test_mode = test_mode == true
   end
 
   def self.test_mode
@@ -13,7 +14,7 @@ module EPDQ
   end
 
   def self.enable_utf8=(enable_utf8)
-    @@enable_utf8 = !!enable_utf8
+    @@enable_utf8 = enable_utf8 == true
   end
 
   def self.enable_utf8
@@ -51,5 +52,4 @@ module EPDQ
   def self.pspid
     @@pspid
   end
-
 end

@@ -1,7 +1,7 @@
-require 'test_helper'
+# frozen_string_literal: true
+require "test_helper"
 
 class RequestTest < Test::Unit::TestCase
-
   setup do
     EPDQ.sha_in = "Mysecretsig1875!?"
     EPDQ.pspid = "MyPSPID"
@@ -12,10 +12,10 @@ class RequestTest < Test::Unit::TestCase
     # this sample taken from the documentation available here:
     # https://mdepayments.epdq.co.uk/ncol/ePDQ_e-Com-ADV_EN.pdf
     options = {
-      :amount => 1500,
-      :currency => "EUR",
-      :language => "en_US",
-      :orderid => "1234"
+      orderid: "1234",
+      amount: 1500,
+      currency: "EUR",
+      language: "en_US"
     }
 
     request = EPDQ::Request.new(options)
@@ -27,10 +27,10 @@ class RequestTest < Test::Unit::TestCase
     EPDQ.sha_type = :sha256
 
     options = {
-      :amount => 1500,
-      :currency => "EUR",
-      :language => "en_US",
-      :orderid => "1234"
+      orderid: "1234",
+      amount: 1500,
+      currency: "EUR",
+      language: "en_US"
     }
 
     request = EPDQ::Request.new(options)
@@ -42,10 +42,10 @@ class RequestTest < Test::Unit::TestCase
     EPDQ.sha_type = :sha512
 
     options = {
-      :amount => 1500,
-      :currency => "EUR",
-      :language => "en_US",
-      :orderid => "1234"
+      orderid: "1234",
+      amount: 1500,
+      currency: "EUR",
+      language: "en_US"
     }
 
     request = EPDQ::Request.new(options)
@@ -57,10 +57,10 @@ class RequestTest < Test::Unit::TestCase
     # this sample taken from the documentation available here:
     # https://mdepayments.epdq.co.uk/ncol/ePDQ_e-Com-ADV_EN.pdf
     options = {
-      :amount => 1500,
-      :currency => "EUR",
-      :language => "en_US",
-      :orderid => "1234"
+      orderid: "1234",
+      amount: 1500,
+      currency: "EUR",
+      language: "en_US"
     }
 
     request = EPDQ::Request.new(options)
@@ -107,5 +107,4 @@ class RequestTest < Test::Unit::TestCase
 
     assert_equal "https://payments.epdq.co.uk/ncol/prod/orderstandard_utf8.asp", request.request_url
   end
-
 end

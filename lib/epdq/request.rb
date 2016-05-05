@@ -1,14 +1,14 @@
-require 'epdq/sha_calculator'
+# frozen_string_literal: true
+require "epdq/sha_calculator"
 
 module EPDQ
   class Request
-
     attr_reader :parameters
 
     # Initialize with a hash of parameters to be passed to ePDQ to set up the
     # transaction.
     def initialize(parameters = {})
-      @parameters = parameters
+      self.parameters = parameters
     end
 
     # Returns the SHASIGN value, calculated from the other form parameters and
@@ -23,12 +23,10 @@ module EPDQ
     def form_attributes
       {}.tap do |attributes|
         full_parameters.each do |k, v|
-          if v && v.to_s.length > 0
-            attributes[k.to_s.upcase] = v.to_s
-          end
+          attributes[k.to_s.upcase] = v.to_s unless v.to_s.empty?
         end
 
-        attributes["SHASIGN"] = self.shasign
+        attributes["SHASIGN"] = shasign
       end
     end
 
@@ -44,6 +42,8 @@ module EPDQ
     ENDPOINT = "orderstandard.asp"
     UTF8_ENDPOINT = "orderstandard_utf8.asp"
 
+    attr_writer :parameters
+
     def url
       EPDQ.test_mode ? TEST_URL : LIVE_URL
     end
@@ -53,7 +53,7 @@ module EPDQ
     end
 
     def full_parameters
-      @parameters.merge({ :pspid => EPDQ.pspid })
+      parameters.merge(pspid: EPDQ.pspid)
     end
   end
 end
