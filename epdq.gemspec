@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Gem::Specification.new do |s|
   s.name    = "epdq"
   s.version = "0.0.3"
@@ -8,6 +9,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{lib}/**/*"] + ["Rakefile", "README.md"]
   s.test_files = Dir["test/**/*_test.rb"]
 
-  s.add_development_dependency "test-unit", "~> 2.5.3"
   s.add_development_dependency "rake"
+  s.add_development_dependency "rubocop"
+  s.add_development_dependency "test-unit", "~> 2.5.3"
 end

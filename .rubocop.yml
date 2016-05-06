@@ -1,0 +1,42 @@
+AllCops:
+  TargetRubyVersion: 2.3
+
+  # Output settings
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+# Don't enforce comments classes
+Documentation:
+  Enabled: false
+
+# More flexible array alignment
+Style/IndentArray:
+  EnforcedStyle: consistent
+
+# More flexible hash alignment
+Style/IndentHash:
+  EnforcedStyle: consistent
+
+Metrics/AbcSize:
+  Exclude:
+    - 'test/**/*'
+
+# Disable class length check for tests
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+
+# Disable method length check for tests
+Metrics/MethodLength:
+  Exclude:
+    - 'test/**/*'
+
+# 120 character width
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - 'test/**/*'
+
+# Prefer double quotes
+Style/StringLiterals:
+  EnforcedStyle: double_quotes

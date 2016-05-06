@@ -1,2 +1,3 @@
-require 'test/unit'
-require 'epdq'
+# frozen_string_literal: true
+require "test/unit"
+require "epdq"

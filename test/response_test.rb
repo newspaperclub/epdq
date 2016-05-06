@@ -1,7 +1,7 @@
-require 'test_helper'
+# frozen_string_literal: true
+require "test_helper"
 
 class ResponseTest < Test::Unit::TestCase
-
   setup do
     EPDQ.sha_type = :sha1
     EPDQ.sha_out = "Mysecretsig1875!?"
@@ -55,5 +55,4 @@ class ResponseTest < Test::Unit::TestCase
     assert_equal "CreditCard", parameters[:pm]
     assert_equal "9", parameters[:status]
   end
-
 end
