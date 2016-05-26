@@ -7,6 +7,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.2.0)
+    metaclass (0.0.4)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
     parser (2.3.0.6)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -27,6 +30,7 @@ PLATFORMS
 
 DEPENDENCIES
   epdq!
+  mocha (~> 1.1.0)
   rake
   rubocop
   test-unit (~> 2.5.3)

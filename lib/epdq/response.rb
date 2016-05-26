@@ -4,13 +4,14 @@ require "cgi"
 
 module EPDQ
   class Response
-    def initialize(query_string)
+    def initialize(client, query_string)
       raw_parameters = CGI.parse(query_string)
       # collapse the array that CGI::parse produces for each value
       raw_parameters.each do |k, v|
         raw_parameters[k] = v.first
       end
 
+      self.client = client
       self.shasign = raw_parameters.delete("SHASIGN")
       self.raw_parameters = raw_parameters
     end
@@ -30,10 +31,10 @@ module EPDQ
 
     private
 
-    attr_accessor :shasign, :raw_parameters
+    attr_accessor :client, :shasign, :raw_parameters
 
     def calculated_sha_out
-      calculator = EPDQ::ShaCalculator.new(raw_parameters, EPDQ.sha_out, EPDQ.sha_type)
+      calculator = EPDQ::ShaCalculator.new(raw_parameters, client.sha_out, client.sha_type)
       calculator.sha_signature
     end
   end
